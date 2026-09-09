@@ -1,0 +1,51 @@
+# Single source of truth for every number on the site.
+# Sourced from Instagram Insights, window recorded in metricsWindow below.
+# Evidence is filed in the private repo.
+
+# Q6. The day counter DERIVES from this date at build time — never hardcode it,
+# or the site's most prominent number is wrong the morning after a deploy.
+startDate: "2025-05-28"
+
+# Q7. His own estimate, counted on his fingers — not a bike computer, not Strava.
+# Say "about". Never imply GPS precision; there is no track log to show.
+km: "5,000"
+kmNumeric: 5000
+kmSource: "rider's estimate"
+
+# Q10. Countries RIDDEN, not countries visited. He has cycled Iran, Armenia and
+# Georgia. The other ten on his list are tour-leading and travel — real
+# experience, but it did not happen on a bicycle, and a sponsor will check.
+countries: 3
+countriesLivedWorked: 13
+
+# 60,540 on the 9 Aug – 7 Sep screenshot (+28.7% vs 8 Aug; +13,439 net, from
+# 15,398 follows against 1,959 unfollows). Was 55.7K on the July window.
+followers: "60.5K"
+verified: true
+
+# The two largest films, both measured from their own reel-insights screens
+# on 2026-09-09. The order changed this round: the Pride day (posted 26 Aug)
+# overtook the delivery day and is now the biggest thing on the account.
+#   top    — 4,357,796 views, 6y 94d watch time, 188,232 interactions
+#   second — 1,789,526 views, 2y 71d watch time, 154,131 interactions
+# viewsTopFilm MUST equal one episodes.yaml row's `views` string: Episodes.astro
+# hangs the share count on the row that matches it, and nothing else marks it.
+# sharesTopFilm is Instagram's own rounded figure (56K on the screen), not a
+# count — it used to be an exact number from a different film, so do not read
+# the trailing zeros as precision.
+sharesTopFilm: 56000
+viewsTopFilm: "4.36M"
+viewsSecondFilm: "1.79M"
+
+# Account-level, measured over the window in metricsWindow below.
+# Views 6,653,343 (viewers 3,530,304, +345.2%); interactions 433,391; 92.6% of
+# views from non-followers; reels are 94.4% of views. Measurements only — why
+# these are the numbers the site leads with is reasoning, and reasoning about
+# how brands read this page does not belong in a file handed to those brands.
+views30d: "6.65M"
+interactions30d: "433K"
+viewsBestFilm: "4.36M"
+nonFollowerReach: "93%"
+
+metricsWindow: "9 Aug – 7 Sep 2026"
+stale: false

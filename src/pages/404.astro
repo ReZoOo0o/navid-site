@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import { t } from '../lib/i18n';
+const s = t('en');
+---
+<Base locale="en" title="Not found — Navid Faramarznezhad" description="That page does not exist." path="/404.html">
+  <main id="main" class="flex min-h-[70svh] flex-col justify-center gap-6 px-6 md:px-16">
+    <p class="mono tracking-[var(--tr-label)]" style="font-size: var(--t-label); color: var(--c-body2);">ERROR 404 · OFF THE ROUTE</p>
+    <h1 class="font-black leading-[var(--lh-tight)] tracking-[var(--tr-tight)]" style="font-size: var(--t-display);">This road isn't on the map.</h1>
+    <p class="leading-[var(--lh-loose)]" style="font-size: var(--t-lead); color: var(--c-body2); max-width: 46ch;">
+      The page you were looking for doesn't exist — but the ridden ground does.
+    </p>
+    <a href="/" class="cta-primary mono inline-flex items-center gap-2 self-start px-5 py-3 tracking-[var(--tr-label)]"
+       style="font-size: var(--t-small); min-height: 44px;">
+      ← BACK TO THE ROUTE
+    </a>
+  </main>
+</Base>

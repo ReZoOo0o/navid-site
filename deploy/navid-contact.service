@@ -1,0 +1,20 @@
+[Unit]
+Description=Navid media kit — contact endpoint
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/var/www/navid-app
+Environment=PORT=8787
+# Set these in /etc/navid-contact.env (chmod 600), never in this file:
+#   MAIL_TO=…  MAIL_FROM=…  RESEND_API_KEY=…
+EnvironmentFile=/etc/navid-contact.env
+ExecStart=/usr/bin/node server/serve-contact.mjs
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

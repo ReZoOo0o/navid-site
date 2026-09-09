@@ -1,0 +1,158 @@
+# The #story chapter — HIS ACCOUNT, in the first person, from the notes he
+# sent 2026-08-31. The Persian stays as close to his own wording as the page
+# allows; the English follows the Persian.
+#
+# THE RULE, now that the page speaks as "I": every sentence here is his to own.
+# Nothing goes in this file that he has not said. `quotes` stay reserved for
+# wording we can point at word for word; a quote with `pending: true` has
+# body: null and renders NOTHING — the schema refuses to let the flag and the
+# body disagree, and tests/guards.test.ts fails the build if a pending quote's
+# context string ever reaches dist.
+#
+# The start date appears as the {start} token — filled from facts.yaml at
+# render time, so a correction to the departure date reaches all prose.
+#
+# Some of what he sent is deliberately not published here. Those decisions are
+# recorded in the private repo; do not add to this file without them.
+
+chapters:
+  - id: leaving
+    body:
+      en: >-
+        I left Shiraz on {start}, in the middle of a war. Filming anything was
+        dangerous that summer, so I made nothing on the first stretch of road
+        and crossed the border carrying no footage at all.
+      fa: >-
+        در {start} از شیراز راه افتادم، در میانهٔ یک جنگ. آن تابستان فیلم‌گرفتن
+        از هر چیزی خطر داشت؛ برای همین در نخستین تکهٔ راه هیچ نساختم و بی‌هیچ
+        تصویری از مرز گذشتم.
+  - id: border
+    photo:
+      file: road-meghri-sign-armenia.jpg
+      alt: { en: "A blue road sign for Meghri on a mountain road in southern Armenia", fa: "تابلوی آبیِ راهنمای مغری در جاده‌ای کوهستانی در جنوب ارمنستان" }
+      caption: { en: "The sign for Meghri. My first kilometres in Armenia.", fa: "تابلوی مغری. نخستین کیلومترهایم در ارمنستان." }
+    body:
+      en: >-
+        I reached the Norduz crossing with twenty-five dollars left. I stood
+        there a long time, deciding. Then I crossed.
+      fa: >-
+        به مرز نوردوز که رسیدم، بیست‌وپنج دلار برایم مانده بود. مدتی طولانی
+        همان‌جا ایستادم و با خودم کلنجار رفتم. بعد گذشتم.
+  - id: armenia
+    photo:
+      file: tatev-monastery-from-the-road.jpg
+      alt: { en: "Tatev monastery on a cliff above a gorge, seen from the roadside", fa: "صومعهٔ تاتِو بر لبهٔ صخره بالای دره، از کنارِ جاده" }
+      caption: { en: "Tatev, from the road.", fa: "تاتِو، از جاده." }
+    body:
+      en: >-
+        Meghri, Kapan, up the mountain road to Tatev, then the town of Ararat
+        and Yerevan. I ate little, and most of what I ate I ate as someone's
+        guest — Armenian families, and transit drivers who stopped for a
+        cyclist on an empty road.
+      fa: >-
+        مغری، کاپان، از جادهٔ کوهستان تا تاتِو، بعد شهرِ آرارات و ایروان. کم
+        می‌خوردم، و بیشترِ همان کم را مهمانِ کسی بودم — خانواده‌های ارمنی، و
+        راننده‌های ترانزیتی که برای یک دوچرخه‌سوار در جادهٔ خالی نگه می‌داشتند.
+  - id: work
+    photo:
+      file: work-construction-site-yerevan.jpg
+      alt: { en: "Navid in an orange high-visibility jacket on a construction site, a tower crane and the Yerevan skyline behind him", fa: "نوید با جلیقهٔ نارنجیِ ایمنی سرِ ساختمان؛ پشتِ سرش جرثقیلِ برجی و افقِ ایروان" }
+      caption: { en: "Forty days on a building site in Yerevan.", fa: "چهل روز سرِ ساختمان در ایروان." }
+    body:
+      en: >-
+        To earn the money to reach Georgia I took the only work open to someone
+        who did not know the country: construction. Forty days of it. Then food
+        delivery — and one film of a single delivery shift was watched by more
+        people in a week than everything I had made before it. That was when I
+        understood that the work itself was the story.
+      fa: >-
+        برای درآوردنِ پولِ رفتن به گرجستان، تنها کاری را گرفتم که برای کسی
+        ناآشنا با آن کشور باز بود: کارگریِ ساختمان. چهل روز. بعد پیکِ غذا — و یک
+        ویدیو از یک شیفتِ پیک، در یک هفته بیشتر از همهٔ چیزهایی که تا آن روز
+        ساخته بودم دیده شد. همان‌جا فهمیدم که خودِ کار، قصه است.
+  - id: accident
+    body:
+      en: >-
+        Then a road accident ended the plan. I spent months in physiotherapy
+        and could not ride.
+      fa: >-
+        بعد یک تصادف همهٔ برنامه را به هم زد. چند ماه فیزیوتراپی رفتم و
+        نتوانستم رکاب بزنم.
+  - id: winter
+    photo:
+      file: portrait-snow-goggles-december.jpg
+      alt: { en: "Navid in a grey hooded shell and orange goggles on a snow-covered road", fa: "نوید با کاپشنِ کلاه‌دارِ خاکستری و عینکِ نارنجی در جاده‌ای پوشیده از برف" }
+      caption: { en: "Snow, December.", fa: "برف، دی‌ماه." }
+    body:
+      en: >-
+        The hardest winter of this journey was not spent on the bicycle. I had
+        no contact with my family and could not sit still with it, and by then
+        I knew that riding was the only thing that quieted me. I left for the
+        Georgian border at seventeen below. It was the first time cycling gave
+        me no joy — some days I rode and wept. Nothing could have kept me in
+        that room.
+      fa: >-
+        سخت‌ترین زمستانِ این سفر روی دوچرخه نگذشت. با خانواده‌ام بی‌ارتباط بودم و
+        نمی‌توانستم با آن آرام بنشینم، و تا آن روز فهمیده بودم که تنها چیزی که
+        آرامم می‌کند رکاب‌زدن است. در منفی هفده درجه به سمت مرز گرجستان راه
+        افتادم. نخستین بار بود که رکاب می‌زدم و لذت نمی‌بردم — بعضی روزها
+        می‌رفتم و گریه می‌کردم. هیچ‌چیز نمی‌توانست نگهم دارد.
+  - id: georgia
+    photo:
+      file: bike-loaded-chronicle-of-georgia.jpg
+      alt: { en: "The loaded touring bicycle in a car park below the Chronicle of Georgia monument", fa: "دوچرخهٔ باربستهٔ سفر در پارکینگ، پایینِ یادمانِ کرونیکلِ گرجستان" }
+      caption: { en: "The loaded bike below the Chronicle of Georgia, Tbilisi.", fa: "دوچرخهٔ باربسته زیرِ یادمانِ کرونیکلِ گرجستان، تفلیس." }
+    body:
+      en: >-
+        Five days later I was in Tbilisi. I stayed six months and rode as much
+        of the country as I could reach: Gori, Borjomi, Bakuriani, Kutaisi,
+        Martvili, Poti, Batumi.
+      fa: >-
+        پنج روز بعد در تفلیس بودم. شش ماه ماندم و هرچه از آن کشور دستم رسید
+        رکاب زدم: گوری، بورجومی، باکوریانی، کوتایسی، مارتویلی، پوتی، باتومی.
+
+quotes:
+  # UNANSWERED. Renders nothing until he replies. Do not write these for him.
+  - id: why-film-the-money
+    source: Q18
+    pending: true
+    context:
+      en: on why I film real work and count the money on camera
+      fa: دربارهٔ اینکه چرا کارِ واقعی را فیلم می‌کنم و پول را جلوی دوربین می‌شمارم
+    body: null
+  - id: in-his-words
+    source: Q44
+    pending: true
+    context:
+      en: what I want said
+      fa: آنچه دلم می‌خواهد گفته شود
+    body: null
+
+# The years BEFORE the road. The ride itself is told in `chapters` above; this
+# is the working life it came out of, and it is deliberately terse so that the
+# two never say the same thing twice.
+timeline:
+  - id: tl-2015
+    when: { en: "2015", fa: "۲۰۱۵" }
+    body: { en: "Documentary film and photography begin, in Shiraz.", fa: "مستندسازی و عکاسی، از شیراز، آغاز می‌شود." }
+  - id: tl-tours
+    when: { en: "The tour years", fa: "سال‌های تور" }
+    body: { en: "Leading tours across Iran for travellers arriving from abroad — later for Iranian groups in Iran and in Georgia.", fa: "تورلیدری در سراسر ایران برای مسافرانی که از خارج می‌آمدند — و بعدتر برای گروه‌های ایرانی در ایران و گرجستان." }
+  - id: tl-countries
+    when: { en: "Thirteen countries", fa: "سیزده کشور" }
+    body: { en: "Lived and worked in — cooking professionally, training baristas, guiding.", fa: "زندگی و کار در سیزده کشور — آشپزی حرفه‌ای، آموزش باریستا، راهنمایی سفر." }
+
+# From his own resume, compressed. Facts, not adjectives we invented.
+values:
+  values:
+    - { en: "Cultural respect", fa: "احترام به فرهنگ‌ها" }
+    - { en: "Environmental responsibility", fa: "مسئولیت زیست‌محیطی" }
+    - { en: "Authentic human connection", fa: "پیوند انسانیِ واقعی" }
+  crafts:
+    - { en: "Professional cooking", fa: "آشپزی حرفه‌ای" }
+    - { en: "Barista training", fa: "آموزش باریستا" }
+    - { en: "Tour guiding", fa: "راهنمایی تور" }
+  languages:
+    - { en: "Persian — native", fa: "فارسی — زبان مادری" }
+    - { en: "English — professional", fa: "انگلیسی — حرفه‌ای" }
+    - { en: "Armenian — learning", fa: "ارمنی — در حال یادگیری" }

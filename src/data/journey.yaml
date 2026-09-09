@@ -1,0 +1,27 @@
+# Ridden ground ONLY. Never add a station that has not been ridden.
+# policyNoForward is schema-enforced true and CI-guarded.
+#
+# Stations carry researched route estimates, not odometer readings, and they
+# terminate below the rider's own stated total. The gap is a year of loop rides
+# with no per-city distance, which cannot sit on a linear axis without invented
+# numbers — so they are not plotted, and track.note says so.
+#
+# If the Aragats summit is ever credited anywhere, the credit line is fixed and
+# is recorded in the private repo. The track shows the summit with no credit.
+#
+# 2026-09-09 — asked again for the per-city distances, he answered with one
+# total: the Armenian city loops come to ABOUT 400 km. That is his figure, not
+# a measurement, and it is a single number for the whole set, so it still
+# cannot be split across stations without inventing the split. track.note now
+# carries the 400 instead; the stations stay as they are.
+policyNoForward: true
+stations:
+  - { id: shiraz,  en: Shiraz,  fa: "شیراز",  native: "شیراز",   nativeLang: fa, country: Iran,    km: 0,    ridden: true, day: 1, elevationM: 1486 }
+  - { id: norduz,  en: Norduz,  fa: "نوردوز", native: "نوردوز",  nativeLang: fa, country: Iran,    km: 1600, ridden: true, elevationM: 700 }
+  - { id: yerevan, en: Yerevan, fa: "ایروان", native: "Երևան",   nativeLang: hy, country: Armenia, km: 2000, ridden: true, elevationM: 1000 }
+  # Aragats shares Yerevan's km on purpose: it is a side trip FROM Yerevan, 40 km
+  # away, climbed in July. It used to sit at km 4000, which drew Armenia's
+  # highest mountain next to Tbilisi and implied he summited it after Georgia.
+  - { id: aragats, en: Aragats summit, fa: "قلهٔ آراگاتس", native: "Արագած", nativeLang: hy, country: Armenia, km: 2000, ridden: true, elevationM: 3879 }
+  - { id: dilijan, en: Dilijan, fa: "دیلیجان", native: "Դիլիջան", nativeLang: hy, country: Armenia, km: 2300, ridden: true, elevationM: 1250 }
+  - { id: tbilisi, en: Tbilisi, fa: "تفلیس",  native: "თბილისი", nativeLang: ka, country: Georgia, km: 4000, ridden: true, day: 295, elevationM: 450 }

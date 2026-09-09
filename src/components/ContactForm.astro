@@ -1,0 +1,104 @@
+---
+import { t } from '../lib/i18n';
+import { loadOffer } from '../lib/content';
+interface Props { locale: 'en' | 'fa' }
+const { locale } = Astro.props;
+const s = t(locale);
+const o = loadOffer();
+const endpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT ?? '';
+---
+<section id="contact" class="px-6 py-14 md:px-16" style="background: var(--c-band); color: var(--c-band-ink);">
+  <div class="grid gap-10 md:grid-cols-[0.9fr_1.1fr] md:gap-14">
+    <div class="flex flex-col gap-4">
+      <p class="mono tracking-[var(--tr-label)]" style="font-size: var(--t-label); color: var(--c-band-dim);">{s['contact.label']}</p>
+      <h2 class="font-black leading-[1.05]" style="font-size: var(--t-h2);">{s['contact.lead']}</h2>
+      <p class="leading-[var(--lh-body)]" style="font-size: var(--t-lead); color: var(--c-band-text);">{s['contact.sub']}</p>
+      <div class="mt-1">
+        <p class="mono tracking-[var(--tr-label)]" style="font-size: var(--t-label); color: var(--c-band-dim);">{s['contact.reasonsLabel']}</p>
+        <ul class="mt-2 flex flex-col gap-1.5" role="list">
+          {[s['contact.reason1'], s['contact.reason2'], s['contact.reason3'], s['contact.reason4']].map((r) => (
+            <li class="flex gap-3 leading-[var(--lh-body)]" style="font-size: var(--t-lead); color: var(--c-band-text);">
+              <span aria-hidden="true" style="color: var(--c-band-dim);">→</span><span>{r}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <p class="mono leading-[var(--lh-body)]" style="font-size: var(--t-small); color: var(--c-band-text);">
+        {s['contact.direct']}
+        <a href={`mailto:${o.contact.email}`} class="inline-block underline decoration-2 underline-offset-4"
+           style="color: var(--c-band-dim); padding: 10px 0; min-height: 44px;">{o.contact.email}</a>
+      </p>
+    </div>
+
+    <form data-contact-form action={endpoint} method="post" class="flex flex-col gap-4" novalidate
+          data-msg-no-endpoint={s['contact.noEndpoint']}
+          data-msg-sending={s['contact.sending']}
+          data-msg-ok={s['contact.ok']}
+          data-msg-invalid={s['contact.invalid']}
+          data-msg-rate={s['contact.rate']}
+          data-msg-fail={s['contact.fail']}>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div class="flex flex-col gap-2">
+          <label class="mono tracking-[var(--tr-label)]" style="font-size: var(--t-label); color: var(--c-band-text);" for="cf-name">{s['contact.name']}</label>
+          <input id="cf-name" name="name" type="text" required autocomplete="name" class="cf-input" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="mono tracking-[var(--tr-label)]" style="font-size: var(--t-label); color: var(--c-band-text);" for="cf-company">{s['contact.company']}</label>
+          <input id="cf-company" name="company" type="text" autocomplete="organization" class="cf-input" />
+        </div>
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="mono tracking-[var(--tr-label)]" style="font-size: var(--t-label); color: var(--c-band-text);" for="cf-email">{s['contact.email']}</label>
+        <input id="cf-email" name="email" type="email" required autocomplete="email" inputmode="email" class="cf-input" />
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="mono tracking-[var(--tr-label)]" style="font-size: var(--t-label); color: var(--c-band-text);" for="cf-message">{s['contact.message']}</label>
+        <textarea id="cf-message" name="message" required rows="4" class="cf-input" style="resize: vertical;"></textarea>
+      </div>
+      {/* Honeypot — hidden from people, irresistible to bots.
+          NOT `left:-9999px`: that is an LTR-only trick, and in the RTL Persian
+          document it pushed the scrollable width out by exactly 9,999px, so the
+          page rendered as a sliver of content on a vast empty canvas. The
+          clip-path pattern hides it in both directions without creating overflow. */}
+      <div aria-hidden="true" style="position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;">
+        <label for="cf-website">Website</label>
+        <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+      <button type="submit" class="cf-submit mono tracking-[var(--tr-label)]">{s['contact.send']}</button>
+      <p data-cf-status role="status" aria-live="polite" class="mono leading-[var(--lh-body)]"
+         style="font-size: var(--t-small); min-height: 1.4em;"></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  const FORM = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  if (FORM) {
+    const status = FORM.querySelector<HTMLElement>('[data-cf-status]')!;
+    const btn = FORM.querySelector<HTMLButtonElement>('.cf-submit')!;
+    const say = (msg: string, tone: 'ok' | 'err' | 'busy') => {
+      status.textContent = msg;
+      status.style.color = tone === 'err' ? '#FFB4A8' : tone === 'ok' ? '#9BE8B0' : 'var(--c-band-text)';
+    };
+    FORM.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(FORM).entries());
+      const endpoint = FORM.getAttribute('action');
+      if (!endpoint) { say(FORM.dataset.msgNoEndpoint ?? 'Preview build — use the email link above.', 'err'); return; }
+      btn.disabled = true;
+      say(FORM.dataset.msgSending ?? 'Sending…', 'busy');
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data),
+        });
+        const out = await res.json().catch(() => ({}));
+        if (res.ok) { say(FORM.dataset.msgOk ?? 'Sent. He reads every one.', 'ok'); FORM.reset(); }
+        else if (res.status === 422) say(`${FORM.dataset.msgInvalid ?? 'Please check:'} ${(out.fields ?? []).join(', ')}`, 'err');
+        else if (res.status === 429) say(FORM.dataset.msgRate ?? 'Too many messages. Try again in a minute.', 'err');
+        else say(out.message ?? FORM.dataset.msgFail ?? 'Could not send — please use the email link.', 'err');
+      } catch {
+        say(FORM.dataset.msgFail ?? 'Could not send — please use the email link.', 'err');
+      } finally { btn.disabled = false; }
+    });
+  }
+</script>

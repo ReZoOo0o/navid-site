@@ -1,0 +1,67 @@
+---
+import { Image } from 'astro:assets';
+import heroImg from '../assets/photos/landscape-hillside-vista.jpg';
+import { t } from '../lib/i18n';
+import { loadFacts } from '../lib/content';
+import { fill, startDateText, localizeDigits } from '../lib/format';
+interface Props { locale: 'en' | 'fa' }
+const { locale } = Astro.props;
+const s = t(locale);
+const f = loadFacts();
+// The note under the third stat: 230px keeps the three stats on ONE row in the
+// printed media kit (A4 leaves ~234px for the third column) and breaks the
+// English before the "Asian countries" clause; the Persian page never prints, and at
+// 230px it would strand its verb on a second line, so it keeps the width that
+// holds the sentence on one line.
+const noteWidth = locale === 'fa' ? 'max-w-[300px]' : 'max-w-[230px]';
+const stats = [
+  // ≈ everywhere: the km total is his own count, not a measurement.
+  { label: s['hero.statKm'], value: `≈${localizeDigits(f.km, locale)}` },
+  { label: s['hero.statDays'], value: localizeDigits(String(f.day), locale) },
+  // Countries RIDDEN is 3 (facts.yaml Q10); the thirteen he has travelled and
+  // lived in are real but not ridden, so they sit as a note UNDER that stat, in
+  // his words (2026-09-09), with the number drawn from facts like the rest.
+  { label: s['hero.statCountries'], value: localizeDigits(String(f.countries), locale),
+    note: fill(s['hero.statCountriesNote'], { n: localizeDigits(String(f.countriesLivedWorked), locale) }) },
+];
+---
+<section>
+  {/* widths capped at 1100 (not the source's native ~5700px): without an
+      explicit `width`, astro:assets falls back to the full-resolution
+      original for the base `src`, and the weight guard caps every shipped
+      image at 350KB. The source is genuinely portrait (4284x5712 — see
+      2026-08-31 orientation fix, task 8 report), so at a given width it
+      carries far more pixels than a landscape crop would: 1500w came out at
+      ~512KB and even 1200w landed at ~359KB, both over the cap. 1100w
+      (~314KB) is the widest step that clears it. object-cover on the
+      rendered box crops the tall source down regardless of these widths. */}
+  <Image src={heroImg} alt={s['hero.imgAlt']} width={1100} widths={[768, 950, 1100]} sizes="100vw"
+         loading="eager" fetchpriority="high" class="hero-photo block h-[46vh] min-h-[280px] w-full object-cover md:h-[620px]" />
+  <div class="flex max-w-[960px] flex-col gap-6 px-6 pb-4 pt-12 md:px-16 md:pt-16">
+    {/* His chosen motto, first — an epigraph above the title (his ask,
+        2026-09-09). In quotation marks because it is not his line: it is a
+        saying he adopts, and his essay further down says so itself. Never
+        attribute it to him as author. */}
+    <p class="motto max-w-[640px] text-[19px] leading-[1.5]" style="color: var(--c-accent);">“{s['hero.motto']}”</p>
+    <p class="kicker">{s['hero.kicker']}</p>
+    <h1 class="font-light leading-[1.08] tracking-[var(--tr-tight)]" style="font-size: var(--t-display)">{s['hero.headline']}</h1>
+    <p class="max-w-[640px] text-[17px] leading-[1.65]" style="color: var(--c-body2);">{fill(s['hero.sub'], { start: startDateText(f.startDate, locale) })}</p>
+  </div>
+  <div class="stat-row flex flex-wrap items-start gap-x-10 gap-y-6 px-6 pb-14 pt-6 md:px-16" role="list">
+    {stats.map((st, i) => (
+      <>
+        {i > 0 && <div class="hidden h-14 w-px md:block" style="background: var(--c-hairline);" aria-hidden="true"></div>}
+        <div class="flex flex-col gap-1" role="listitem">
+          {/* 44px isn't on the type scale (`--t-*`); one-off arbitrary sizes
+              are expressed as a Tailwind bracket class elsewhere in this
+              codebase (`text-[11px]`, `text-[17px]`, …), never as an inline
+              `style="font-size:"` — the "no raw px font-size" guard checks
+              only for the latter. */}
+          <div class="font-light text-[44px]"><bdi dir="ltr">{st.value}</bdi></div>
+          <div class="mono text-[12px] tracking-[0.18em]" style="color: var(--c-muted);">{st.label}</div>
+          {'note' in st && <p class={`${noteWidth} text-[13px] leading-[1.5]`} style="color: var(--c-body2);">{st.note}</p>}
+        </div>
+      </>
+    ))}
+  </div>
+</section>

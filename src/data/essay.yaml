@@ -1,0 +1,25 @@
+# His essay, "The Philosophy of the Bicycle" — his own English, quoted
+# verbatim. The `frame` lines are ours and read as ours. The Persian side of
+# each excerpt is a translation and is labelled as one where it renders.
+title:
+  en: "The Philosophy of the Bicycle"
+  fa: "فلسفهٔ دوچرخه"
+intro:
+  en: "He wrote down, in his own English, why the bicycle rather than anything faster. Three passages from that essay:"
+  fa: "او به انگلیسیِ خودش نوشته است که چرا دوچرخه، و نه چیزی سریع‌تر. سه بند از آن جستار:"
+excerpts:
+  - id: ex-efficiency
+    frame: { en: "It starts as an engineer's argument:", fa: "از یک استدلالِ مهندسی شروع می‌شود:" }
+    body:
+      en: "Not many people know that traveling with a bicycle is the most energy efficient way of transporting yourself. Indeed, the bicycle is more energy efficient than an airplane, a ship, the car, the motorcycle or even moving from one place to another on foot."
+      fa: "کمتر کسی می‌داند که سفر با دوچرخه بهینه‌ترین شیوهٔ جابه‌جایی است. به‌راستی دوچرخه از هواپیما، کشتی، خودرو، موتورسیکلت و حتی پیاده‌رفتن هم کم‌مصرف‌تر است."
+  - id: ex-rhythm
+    frame: { en: "Then it becomes an argument about attention:", fa: "بعد، بحث بر سرِ توجه است:" }
+    body:
+      en: "Since you are moving quite slowly on a bicycle compared to other means of travel, you clearly see how landscapes change, you distinctively hear how languages influence each other, and you feel how cultures refuse to stop at country borders."
+      fa: "چون روی دوچرخه، در قیاس با هر وسیلهٔ دیگر، آهسته پیش می‌روی، به‌روشنی می‌بینی که چشم‌اندازها چگونه عوض می‌شوند، به‌وضوح می‌شنوی که زبان‌ها چگونه بر هم اثر می‌گذارند، و حس می‌کنی که فرهنگ‌ها حاضر نیستند سرِ مرزها بایستند."
+  - id: ex-closing
+    frame: { en: "And it ends where he lives:", fa: "و آن‌جا تمام می‌شود که او زندگی می‌کند:" }
+    body:
+      en: "In my humble opinion, this aspect of traveling by bicycle – with the opportunity to travel to places not many tourists have visited or seen before, because they are off the well beaten tracks – is the greatest good it will offer anyone who is willing to sacrifice a little comfort for meaningful contact, for seeing the world how it truly is."
+      fa: "به گمانِ من، همین وجهِ سفر با دوچرخه — با فرصتِ رفتن به جاهایی که کمتر گردشگری دیده است، چون دور از مسیرهای کوبیده‌اند — بزرگ‌ترین هدیه‌ای است که نصیب هرکسی می‌شود که حاضر باشد اندکی آسایش را با تماسِ معنادار عوض کند؛ با دیدنِ جهان همان‌گونه که به‌راستی هست."

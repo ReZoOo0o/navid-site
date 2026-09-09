@@ -1,0 +1,40 @@
+name: deploy-pages
+on:
+  workflow_dispatch:
+  push: { branches: [main] }
+permissions: { contents: read, pages: write, id-token: write }
+concurrency: { group: pages, cancel-in-progress: true }
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      # LAUNCH=1 makes the build FAIL while any placeholder data remains
+      # The runner image carries Google's Chrome apt source, and --with-deps
+      # runs apt-get update, which aborts on ANY broken source. On 2026-09-09
+      # that index was mid-update (Release listed one hash, the served
+      # Packages.gz had another — reproduced from a Mac, so no retry could
+      # pass) and it took the deploy with it, twice. Nothing here installs
+      # from that source, so it goes before apt is asked for anything; the
+      # grep makes a missed file loud instead of a mystery failure later.
+      - run: sudo rm -f /etc/apt/sources.list.d/google-chrome* && ! grep -rs dl.google.com /etc/apt/sources.list /etc/apt/sources.list.d/
+      - run: npx playwright install --with-deps chromium
+      - run: LAUNCH=1 npm run build
+        env:
+          PUBLIC_CONTACT_ENDPOINT: ${{ vars.PUBLIC_CONTACT_ENDPOINT }}
+      # the PDF must be generated AFTER the build — astro build clears dist/
+      - run: node scripts/build-pdf.mjs
+      - run: LAUNCH=1 npx vitest run
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: dist }
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: { name: github-pages, url: '${{ steps.deployment.outputs.page_url }}' }
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

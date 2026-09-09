@@ -1,0 +1,76 @@
+---
+import '../styles/global.css';
+import { hasMockData, loadFacts, loadOffer } from '../lib/content';
+interface Props { locale: 'en' | 'fa'; title: string; description: string; path: string }
+const { locale, title, description, path } = Astro.props;
+const mock = hasMockData();
+const f = loadFacts();
+const o = loadOffer();
+// Person + CreativeWork so search and social understand who this is.
+// No contact details are emitted while they are still placeholder values.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Navid Faramarznezhad',
+  alternateName: 'نوید فرامرزنژاد',
+  jobTitle: 'Documentary filmmaker, photographer and cycle tourist',
+  nationality: 'Iranian',
+  knowsLanguage: ['fa', 'en', 'hy'],
+  sameAs: ['https://instagram.com/navid__fa'],
+  ...(o.contact.mock ? {} : { email: o.contact.email }),
+  subjectOf: {
+    '@type': 'CreativeWork',
+    name: 'One day of work',
+    description: 'A documentary film series: one real day of local work in each country crossed by bicycle, with the pay counted on camera.',
+    inLanguage: 'fa',
+  },
+};
+const dir = locale === 'fa' ? 'rtl' : 'ltr';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const abs = (p: string) => new URL(base + p, Astro.site).href;
+const altPath = locale === 'fa' ? '/' : '/fa/';
+---
+<html lang={locale} dir={dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* The page is charcoal (spec §3), but the dark scheme is declared in CSS
+        (global.css :root { color-scheme: dark }), NOT here. As a meta it also
+        governed the PRINT canvas, and Chrome painted the @page margin box from
+        the dark UA canvas: a 14mm #121212 frame on every page of the media-kit
+        PDF, which spec §5 says prints on paper. In CSS the print block flips it
+        back to light. theme-color has no CSS form so it stays a meta, and it is
+        guarded against drifting from --c-ground in tests/guards.test.ts. */}
+    <meta name="theme-color" content="#1D1D1C" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={abs(path)} />
+    <link rel="alternate" hreflang={locale === 'fa' ? 'en' : 'fa'} href={abs(altPath)} />
+    <link rel="alternate" hreflang={locale} href={abs(path)} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={abs('/og.jpg')} />
+    <meta property="og:url" content={abs(path)} />
+    <meta property="og:type" content="profile" />
+    <meta property="og:locale" content={locale === 'fa' ? 'fa_IR' : 'en_US'} />
+    <meta property="og:locale:alternate" content={locale === 'fa' ? 'en_US' : 'fa_IR'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+  </head>
+  <body>
+    {mock && (
+      <div data-mock-ribbon class="no-print mono" role="status">
+        PREVIEW BUILD — the gear list is still placeholder data, pending Navid's Q26 answer. Not for sponsors yet.
+      </div>
+    )}
+    <slot />
+    <script>
+      const io = new IntersectionObserver(
+        (es) => es.forEach((e) => e.isIntersecting && e.target.classList.add('is-in')),
+        { threshold: 0.15 },
+      );
+      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>

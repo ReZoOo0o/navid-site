@@ -1,0 +1,22 @@
+---
+import { t } from '../lib/i18n';
+import { loadFacts, loadOffer } from '../lib/content';
+import { localizeDigits } from '../lib/format';
+interface Props { locale: 'en' | 'fa' }
+const { locale } = Astro.props;
+const s = t(locale);
+const o = loadOffer();
+const f = loadFacts();
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<footer class="flex flex-wrap items-center justify-between gap-3 border-t px-6 py-6 md:px-16" style="border-color: var(--c-hairline);">
+  <p class="mono text-[12px] tracking-[0.14em]">
+    <a href="https://instagram.com/navid__fa" rel="me noopener" class="inline-flex items-center" style="min-height: 44px; padding: 0 2px;"><bdi dir="ltr">{o.contact.instagram}</bdi></a>
+    · {s['contact.verified']} · <bdi dir="ltr">{localizeDigits(f.followers, locale)}</bdi>
+  </p>
+  <p class="mono text-[11px]" style="color: var(--c-body2);">
+    <bdi dir="ltr">{o.contact.email}</bdi> · <bdi dir="ltr">{o.contact.whatsapp}</bdi> ·
+    <a href={`${base}/navid-media-kit.pdf`} download class="inline-flex items-center" style="min-height: 44px; padding: 0 2px;">{s['contact.kit']}</a> ·
+    <a href="#sponsors" class="inline-flex items-center" style="min-height: 44px; padding: 0 2px;">{s['footer.sponsorLink']}</a>
+  </p>
+</footer>

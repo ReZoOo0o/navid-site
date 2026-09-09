@@ -1,0 +1,133 @@
+---
+import { t } from '../lib/i18n';
+import { loadFacts, loadJourney } from '../lib/content';
+import { layoutRoute } from '../lib/track';
+import { localizeDigits } from '../lib/format';
+interface Props { locale: 'en' | 'fa' }
+const { locale } = Astro.props;
+const s = t(locale);
+const f = loadFacts();
+
+const W = 1312, H = 268;
+const LINE_Y = 92;            // the ride
+const BAND_Y = 128;           // country bands beneath it
+const NAME_Y = 186, NATIVE_Y = 206, STAT_Y = 228;   // labels on one shared baseline
+const route = layoutRoute(loadJourney().stations, W, LINE_Y);
+const last = route.stops[route.stops.length - 1];
+
+const rtl = locale === 'fa';
+const dirAttr = rtl ? 'rtl' : 'ltr';
+// text-anchor resolves against the base direction, so start/end swap in RTL.
+const flip = (a: 'start' | 'middle' | 'end') => (!rtl || a === 'middle' ? a : a === 'start' ? 'end' : 'start');
+const faceFor = (l: string) => (l === 'fa' ? 'Vazirmatn, sans-serif' : l === 'hy' ? "'Noto Sans Armenian', system-ui, sans-serif" : "'Noto Sans Georgian', system-ui, sans-serif");
+
+// The reader's own name leads; the local script is a grace note, dropped where
+// it repeats what the reader already has.
+const nameFor = (st: { en: string; fa: string }) => (rtl ? st.fa : st.en);
+const nativeFor = (st: { en: string; fa: string; native: string }) => (st.native === nameFor(st) ? null : st.native);
+const num = (n: number | string) => localizeDigits(typeof n === 'number' ? n.toLocaleString('en-US') : n, locale);
+const statOf = (st: { km: number; day?: number; elevationM?: number }) => {
+  const bits = [`${s['track.kmWord']} ${num(st.km)}`];
+  if (st.day) bits.push(`${s['hero.day']} ${num(st.day)}`);
+  if (st.elevationM) bits.push(`${num(st.elevationM)} ${s['track.metres']}`);
+  return bits.join(' · ');
+};
+const countryName = (c: string) => { try { return s[`track.country.${c}`]; } catch { return c; } };
+// The accessible copies of the track were English on BOTH pages until
+// 2026-09-09: a Persian screen-reader user heard "Shiraz, Iran, km 0, 1486 m"
+// under a heading that had just been read in Persian. `statOf` and
+// `countryName` above were already localized — the sr-only list and this label
+// simply never used them. Parity with the visible labels is the whole job of
+// an sr-only alternative, so they now say exactly what the SVG says.
+const stName = (st: { en: string; fa: string }) => (rtl ? st.fa : st.en);
+const listSep = rtl ? '، ' : ', ';
+const ariaStations = route.stops.map((p) => stName(p.s)).join(' → ');
+---
+<section id="track" class="border-t px-6 py-12 md:px-16" style="border-color: var(--c-hairline);">
+  <div class="mb-8 flex flex-wrap items-baseline justify-between gap-3">
+    <h2 class="font-black uppercase" style="font-size: var(--t-h2)">{s['track.heading']}</h2>
+    <p class="mono max-w-[62ch] text-[11px] leading-[1.6] tracking-[0.1em]" style="color: var(--c-body2);">{s['track.note']}</p>
+  </div>
+  <ol class="sr-only">
+    {[...route.stops.map((p) => p.s), ...(route.summit ? [route.summit.s] : [])].map((st) => (
+      <li>{stName(st)}{listSep}{countryName(st.country)}{listSep}{statOf(st)}</li>
+    ))}
+  </ol>
+  <div class="track-scroll overflow-x-auto" dir="ltr">
+    <svg viewBox={`0 0 ${W} ${H}`} class="min-w-[900px]" width="100%" role="img"
+         aria-label={`${s['track.heading']}: ${ariaStations}`} data-track-draw>
+
+      {/* the ride */}
+      <line x1={route.stops[0].x} y1={LINE_Y} x2={last.x} y2={LINE_Y} stroke="var(--c-hairline)" stroke-width="3"></line>
+      <line x1={route.stops[0].x} y1={LINE_Y} x2={last.x} y2={LINE_Y}
+            stroke="var(--c-ink)" stroke-width="3" stroke-linecap="round" data-live-stroke></line>
+      {/* the road ahead — deliberately open, no destination */}
+      <line x1={last.x} y1={LINE_Y} x2={W - 24} y2={LINE_Y} stroke="var(--c-hairline)" stroke-width="3" stroke-dasharray="2 9"></line>
+
+      {/* countries */}
+      {route.bands.map((b) => (
+        <>
+          <line x1={b.x1 + 3} y1={BAND_Y} x2={b.x2 - 3} y2={BAND_Y} stroke="var(--c-muted)" stroke-width="2"></line>
+          <text x={(b.x1 + b.x2) / 2} y={BAND_Y + 18} text-anchor="middle" direction={dirAttr} class="mono"
+                font-size="10" fill="var(--c-body2)">{countryName(b.country)}</text>
+        </>
+      ))}
+
+      {/* stations */}
+      {route.stops.map((p) => (
+        <>
+          <line x1={p.x} y1={LINE_Y} x2={p.x} y2={NAME_Y - 20} stroke="var(--c-hairline)" stroke-width="1"></line>
+          <circle cx={p.x} cy={LINE_Y} r="5" fill="var(--c-ink)"></circle>
+          <text x={p.x} y={NAME_Y} text-anchor={flip(p.anchor)} direction={dirAttr} font-size="16" font-weight="700" fill="var(--c-ink)">{nameFor(p.s)}</text>
+          {nativeFor(p.s) && (
+            <text x={p.x} y={NATIVE_Y} text-anchor={flip(p.anchor)} font-family={faceFor(p.s.nativeLang)} font-size="12" fill="var(--c-body2)">{nativeFor(p.s)}</text>
+          )}
+          <text x={p.x} y={STAT_Y} text-anchor={flip(p.anchor)} direction={dirAttr} class="mono"
+                font-size="10" fill="var(--c-body2)">{statOf(p.s)}</text>
+        </>
+      ))}
+
+      {/* the one place he went up, not along */}
+      {route.summit && (
+        <>
+          <line x1={route.summit.x} y1={LINE_Y - 8} x2={route.summit.x} y2="44" stroke="var(--c-body2)" stroke-width="1" stroke-dasharray="2 5"></line>
+          <path d={`M${route.summit.x} 26 l10 17 h-20 Z`} fill="var(--c-accent)" stroke="var(--c-ink)" stroke-width="1.5" stroke-linejoin="round"></path>
+          <text x={route.summit.x + 20} y="34" text-anchor={rtl ? 'end' : 'start'} direction={dirAttr} font-size="15" font-weight="700" fill="var(--c-ink)">{nameFor(route.summit.s)}</text>
+          <text x={route.summit.x + 20} y="50" text-anchor={rtl ? 'end' : 'start'} direction={dirAttr} class="mono"
+                font-size="10" fill="var(--c-body2)">{num(route.summit.s.elevationM ?? 0)} {s['track.metres']} · {s['track.sideTrip']}</text>
+        </>
+      )}
+
+      {/* the last marker: where he actually is */}
+      <circle cx={last.x} cy={LINE_Y} r="13" fill="none" stroke="var(--c-accent)" stroke-width="1.5"></circle>
+      <path d={`M${last.x} ${LINE_Y - 21}v7M${last.x} ${LINE_Y + 14}v7M${last.x - 21} ${LINE_Y}h7M${last.x + 14} ${LINE_Y}h7`} stroke="var(--c-accent)" stroke-width="1.5"></path>
+      <circle cx={last.x} cy={LINE_Y} r="5.5" fill="var(--c-accent)"></circle>
+    </svg>
+  </div>
+  <script>
+    // Draws the ridden line as it enters the viewport.
+    // No-JS / reduced-motion: the line is simply whole (default markup state).
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll<SVGSVGElement>('[data-track-draw]').forEach((svg) => {
+      const live = svg.querySelector<SVGGeometryElement>('[data-live-stroke]');
+      if (!live || reduce) return;
+      const L = live.getTotalLength();
+      live.style.strokeDasharray = String(L);
+      let raf = 0;
+      const frame = () => {
+        raf = 0;
+        const r = svg.getBoundingClientRect();
+        const vh = innerHeight;
+        // Complete the draw once the section is comfortably in view. The old
+        // curve reached ~0.78 at rest, so the line sat permanently half-grey
+        // and read as an unfinished ride rather than an animation.
+        const start = vh, end = vh * 0.4;
+        const p = Math.min(1, Math.max(0, (start - r.top) / (start - end)));
+        live.style.strokeDashoffset = String(L * (1 - p));
+      };
+      const kick = () => { if (!raf) raf = requestAnimationFrame(frame); };
+      addEventListener('scroll', kick, { passive: true });
+      kick();
+    });
+  </script>
+</section>

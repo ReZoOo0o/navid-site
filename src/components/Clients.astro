@@ -1,0 +1,35 @@
+---
+import { t } from '../lib/i18n';
+import { loadEpisodes, pick } from '../lib/content';
+interface Props { locale: 'en' | 'fa' }
+const { locale } = Astro.props;
+const s = t(locale);
+const e = loadEpisodes();
+---
+<section id="clients" class="px-6 py-14 md:px-16" style="background: var(--c-band); color: var(--c-band-ink);">
+  <p class="mono mb-3 text-[12px] tracking-[0.2em]" style="color: var(--c-band-dim);">{s['clients.label']}</p>
+  <h2 class="mb-4 font-black leading-[1.05]" style="font-size: var(--t-h2)">{s['clients.heading']}</h2>
+  <p class="mb-9 max-w-[62ch] leading-[var(--lh-body)]" style="font-size: var(--t-lead); color: var(--c-band-text);">{s['clients.lead']}</p>
+  <ul class="grid gap-x-10 gap-y-6 sm:grid-cols-2 lg:grid-cols-3" role="list">
+    {e.partnerships.map((p) => (
+      <li class="border-t pt-4" style="border-color: color-mix(in srgb, var(--c-band-text) 25%, transparent);">
+        {/* A brand name is an LTR island. Bare, "11+1 by Tumo" came out as
+            "by Tumo 11+1" on the Persian page (bidi reordering of a
+            Latin+digits run inside an RTL paragraph, live 2026-09-09). */}
+        <p class="font-bold" style="font-size: var(--t-lead);"><bdi dir="ltr">{p.client}</bdi></p>
+        <p class="mt-1 leading-[var(--lh-body)]" style="font-size: var(--t-small); color: var(--c-band-text);">{pick(p.what, locale)}</p>
+        <p class="mono mt-2 text-[11px] tracking-[0.12em]" style="color: var(--c-band-text);">{pick(p.where, locale)}</p>
+      </li>
+    ))}
+  </ul>
+  {e.unfilmed.length > 0 && (
+    <div class="mt-12 border-t pt-6" style="border-color: color-mix(in srgb, var(--c-band-text) 25%, transparent);">
+      <p class="mono mb-3 text-[11px] tracking-[0.16em]" style="color: var(--c-band-dim);">{s['clients.alsoLabel']}</p>
+      <ul class="flex flex-col gap-2" role="list">
+        {e.unfilmed.map((u) => (
+          <li class="leading-[var(--lh-body)]" style="font-size: var(--t-lead); color: var(--c-band-text);">{pick(u, locale)}</li>
+        ))}
+      </ul>
+    </div>
+  )}
+</section>

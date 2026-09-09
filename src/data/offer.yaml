@@ -1,0 +1,110 @@
+# Localizable prose is {en, fa} — a missing fa is a BUILD ERROR (schema-enforced).
+# {v1}/{v2} tokens are filled from facts.yaml in Sponsors.astro (single-source rule).
+proves:
+  - en: "Your gear in every frame across thousands of kilometres — footage no studio shoot can fake."
+    fa: "تجهیزات شما در هر قاب، در هزاران کیلومتر — تصاویری که هیچ استودیویی نمی‌تواند بسازد."
+  - en: "The two largest films reached {v1} and {v2} views — the audience arrives on its own."
+    fa: "دو فیلم بزرگ به {v1} و {v2} بازدید رسیدند — مخاطب خودش می‌آید."
+  - en: "In the last thirty days: {v30} views and {i30} interactions, {reach} of it from people who do not follow him — this is monthly reach, not one lucky film."
+    fa: "در سی روز گذشته: {v30} بازدید و {i30} تعامل، که {reach} آن از کسانی است که او را دنبال نمی‌کنند — این دسترسیِ ماهانه است، نه یک فیلمِ شانسی."
+  - en: "Association with slow, sustainable, human-scale travel — the case his own essay makes."
+    fa: "هم‌نشینی با سفرِ آهسته، پایدار و انسانی — همان دفاعی که جستار خودش می‌کند."
+  - en: "Thirteen countries lived and worked in, and years leading tours across Iran and Georgia before the first pedal stroke — a working professional, not a gap year with a camera."
+    fa: "سیزده کشور که در آن‌ها زندگی و کار کرده، و سال‌ها تورلیدری در سراسر ایران و گرجستان پیش از نخستین رکاب — یک حرفه‌ایِ شاغل، نه یک سالِ فراغت با دوربین."
+rails:
+  - label: { en: "Gear", fa: "تجهیزات" }
+    value:
+      en: "first-class, not fallback: shipped, ridden, filmed."
+      fa: "گزینهٔ نخست، نه چارهٔ آخر: ارسال می‌شود، رکاب می‌خورد، فیلم می‌شود."
+  - label: { en: "Cash", fa: "نقدی" }
+    value: { en: "by USDT.", fa: "با تتر (USDT)." }
+  - label: { en: "Rails", fa: "مسیر پرداخت" }
+    value:
+      en: "bank transfer, PayPal and Stripe cannot reach an Iranian on the road — said up front."
+      fa: "حواله بانکی، پی‌پال و استرایپ به یک ایرانی در جاده نمی‌رسد — از همین ابتدا، شفاف."
+ridesAlready: ["Giant", "Ortlieb", "Insta360"]
+# ── gear he still needs (no route information here, by policy) ───────────────
+# The gear list, in his own words. Each row is one object a brand can say yes
+# to: what it is, and why the road needs it. The bicycle is given as a
+# specification rather than a model name.
+# Target brands are tracked privately, not here.
+needs:
+  - id: gear-bike
+    item:
+      en: "A gravel or expedition touring frame — steel or alloy, disc brakes, rack and pannier mounts, for a rider 175 cm tall (frame size M)"
+      fa: "یک دوچرخهٔ گراول یا تورینگِ سفر — فولاد یا آلومینیوم، ترمز دیسک، با جای باربند و خورجین، برای رکاب‌زنی با قدِ ۱۷۵ سانتی‌متر (سایز فریم M)"
+    why:
+      en: "This whole ride has been done on a fitness hybrid that was never designed to carry a loaded expedition over unpaved road."
+      fa: "تمامِ این سفر با یک دوچرخهٔ هیبریدِ ورزشی رکاب خورده — دوچرخه‌ای که هرگز برای حملِ بارِ یک سفرِ بلند روی جادهٔ خاکی ساخته نشده بود."
+    brandHint: null
+  - id: gear-barbag
+    item:
+      en: "Ortlieb handlebar bag, waterproof"
+      fa: "کیفِ فرمانِ ضدآب، اورتلیب"
+    why:
+      en: "Camera, documents and power ride on the handlebar — within reach and dry. He has ridden Ortlieb since Shiraz."
+      fa: "دوربین، مدارک و باتری روی فرمان سفر می‌کنند — در دسترس و خشک. از شیراز تا امروز با اورتلیب رکاب زده است."
+    brandHint: "Ortlieb"
+  - id: gear-panniers
+    item:
+      en: "Ortlieb rear panniers, a waterproof pair"
+      fa: "جفت خورجینِ عقبِ ضدآب، اورتلیب"
+    why:
+      en: "The load that has to survive weeks between towns, and rain that lasts for hours."
+      fa: "باری که باید هفته‌ها بین شهرها دوام بیاورد، و بارانی که ساعت‌ها می‌بارد."
+    brandHint: "Ortlieb"
+  - id: gear-sleeping
+    item:
+      en: "Winter sleeping bag, comfort-rated to −15 °C"
+      fa: "کیسه‌خوابِ زمستانی، با دمای راحتی (comfort) تا منفی ۱۵ درجه"
+    why:
+      en: "Comfort, not the survival limit — he has already ridden at minus seventeen, and the next winter means sleeping out in it, not only riding through it."
+      fa: "دمای راحتی، نه حدِ بقا — پیش از این در منفی هفده رکاب زده است، و زمستانِ بعد یعنی خوابیدن در همان دما، نه فقط رکاب‌زدن در آن."
+    brandHint: null
+  - id: gear-mat
+    item:
+      en: "Insulated sleeping mat with a winter R-value, packable"
+      fa: "زیراندازِ خوابِ عایق و جمع‌شونده، برای خوابِ روی برف"
+    why:
+      en: "He does not own one at all. Below freezing the ground takes the heat faster than the air does, and the warmest bag cannot make that up."
+      fa: "اصلاً ندارد. زیرِ صفر، زمین گرما را تندتر از هوا می‌گیرد، و گرم‌ترین کیسه‌خواب هم جبرانش نمی‌کند."
+    brandHint: null
+  - id: gear-tent
+    item:
+      en: "A four-season canvas shelter for one — Canvas Cutter"
+      fa: "سرپناهِ برزنتیِ چهارفصل، یک‌نفره — کانواس‌کاتر"
+    why:
+      en: "He picked this one himself, from a film of it buried under a night of snow: the man inside had not merely survived until morning, he had slept. A morning he can film starts with a night he actually slept through."
+      fa: "خودش این یکی را انتخاب کرد، از فیلمی که تمامِ شب رویش برف نشسته بود: کسی که داخلش بود فقط تا صبح زنده نمانده بود، خوابیده بود. صبحی که بشود فیلم گرفت، از شبی شروع می‌شود که واقعاً خوابیده باشی."
+    brandHint: "Canvas Cutter"
+  - id: gear-baselayer
+    item:
+      en: "Cold-weather base layer, top and bottom — size S"
+      fa: "بیس‌لایرِ دمای پایین، بالاتنه و پایین‌تنه — سایز S"
+    why:
+      en: "The layer that decides whether a cold day is workable or dangerous. It stays on from the first pedal stroke to the tent."
+      fa: "لایه‌ای که تعیین می‌کند یک روزِ سرد شدنی است یا خطرناک. از نخستین رکاب تا داخل چادر تنش می‌ماند."
+    brandHint: null
+  - id: gear-jacket
+    item:
+      en: "Insulated winter jacket — size M"
+      fa: "کاپشنِ گرمِ زمستانی — سایز M"
+    why:
+      en: "Filming means standing still in the cold — waiting for a shot, cooking, talking to people. That is when the cold arrives."
+      fa: "فیلم‌برداری یعنی بی‌حرکت ایستادن در سرما — منتظرِ یک نما، پختنِ غذا، حرف‌زدن با آدم‌ها. سرما همان‌جا می‌رسد."
+    brandHint: null
+  - id: gear-trousers
+    item:
+      en: "Waterproof insulated over-trousers"
+      fa: "شلوارِ روییِ ضدآب و گرم"
+    why:
+      en: "Rain on a loaded bicycle is not weather, it is hours. Wet legs in winter end the day early."
+      fa: "باران روی دوچرخهٔ بارزده یک وضعِ هوا نیست، چند ساعت است. پای خیس در زمستان روز را زود تمام می‌کند."
+    brandHint: null
+
+contact:
+  instagram: "@navid__fa"
+  # Published contact channels are email and the number below, and nothing else.
+  email: "navidfaramarznezhad@gmail.com"
+  whatsapp: "+374 94 199 361"
+  mock: false

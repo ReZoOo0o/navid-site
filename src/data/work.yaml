@@ -1,0 +1,26 @@
+# Localizable prose is {en, fa} — a missing fa is a BUILD ERROR (schema-enforced).
+# Numbers live in facts.yaml only.
+#
+# WorkPanels.astro (the component that used to render films/essay from this
+# file) was retired 2026-08-31 — the two films are now rows in #work
+# (episodes.yaml) and the essay is now a quote in #story (story.yaml). The
+# file is retained for the note below.
+films:
+  - id: film-armenia
+    title: { en: "One day of work — Armenia", fa: "یک روز کار — ارمنستان" }
+    body:
+      en: "Twelve hours of food delivery in Yerevan, filmed start to finish, the pay counted on camera."
+      fa: "دوازده ساعت پیک غذا در ایروان — از آغاز تا پایان فیلم‌برداری شده و دستمزد جلوی دوربین شمرده می‌شود."
+  - id: film-georgia
+    title: { en: "One day of work — Georgia", fa: "یک روز کار — گرجستان" }
+    body:
+      en: "Nine hours as a motorcycle courier in Tbilisi — the same honest format, a year on."
+      fa: "نه ساعت پیک موتوری در تفلیس — همان قالبِ صادقانه، یک سال بعد."
+# One portfolio item is deliberately not published here. The decision is
+# recorded in the private repo; do not add entries to this file without it.
+essay:
+  id: philosophy
+  title: { en: "The Philosophy of the Bicycle", fa: "فلسفهٔ دوچرخه" }
+  body:
+    en: "His own case, in his own English, for the most efficient machine on earth as the most honest way to meet the world."
+    fa: "دفاعِ خودِ او، به قلم خودش و به انگلیسی، از کارآمدترین ماشین زمین به‌عنوان صادقانه‌ترین راهِ دیدن جهان."
