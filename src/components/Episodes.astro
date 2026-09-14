@@ -1,0 +1,48 @@
+---
+import { Image } from 'astro:assets';
+import photoBag from '../assets/photos/work-delivery-bag-yerevan-night.jpg';
+import { t } from '../lib/i18n';
+import { loadEpisodes, loadFacts, pick } from '../lib/content';
+import { localizeDigits } from '../lib/format';
+interface Props { locale: 'en' | 'fa' }
+const { locale } = Astro.props;
+const s = t(locale);
+const e = loadEpisodes();
+const f = loadFacts();
+// He never gave hours for the newer days. Absent means absent.
+// `platform` is an untranslated Latin brand name (Yandex, Wolt, ...); the
+// hours/views phrase is Persian on the FA page. Kept in separate nested
+// spans (not one mixed-script text node) so Chrome's per-node font
+// resolution — checked by `npm run fonts` — reliably picks Vazirmatn for
+// the Persian half instead of letting the Latin brand name and the '·'
+// separators tip a shared node toward the Latin sans stack. Same visible
+// text, same single flex child, no layout change.
+// The old hero-lens chip row was the only place sharesTopFilm rendered; the
+// Caucasus Light redesign (2026-08-31) moved it onto the top-film row here —
+// the one whose views match facts.viewsTopFilm — so the number is not lost.
+const meta = (i: (typeof e.items)[number]) => [
+  i.hours !== null ? `${localizeDigits(String(i.hours), locale)} ${s['episodes.hours']}` : null,
+  i.views ? `${localizeDigits(i.views, locale)} ${s['episodes.views']}` : null,
+  i.views === f.viewsTopFilm ? `${localizeDigits(f.sharesTopFilm.toLocaleString('en-US'), locale)} ${s['episodes.shares']}` : null,
+].filter(Boolean).join(' · ');
+---
+<section id="work" class="border-t px-6 py-14 md:px-16" style="border-color: var(--c-hairline);">
+  <p class="mono mb-3 text-[12px] tracking-[0.2em]" style="color: var(--c-accent);">{s['episodes.label']}</p>
+  <h2 class="mb-4 font-black uppercase" style="font-size: var(--t-h2)">{s['episodes.heading']}</h2>
+  <p class="mb-9 max-w-[62ch] leading-[var(--lh-body)]" style="font-size: var(--t-lead); color: var(--c-body2);">{s['episodes.lead']}</p>
+  {/* The first still of the format the account was built on (his Sep-2026
+      originals; the site had no photograph of him working until then). */}
+  <figure class="mb-10 flex max-w-[420px] flex-col gap-3">
+    <Image src={photoBag} alt={s['episodes.photoAlt']} width={840} widths={[420, 840]} sizes="(min-width: 768px) 420px, 100vw" class="block aspect-[4/5] w-full object-cover" />
+    <figcaption class="text-[13px]" style="color: var(--c-muted);">{s['episodes.photoCaption']}</figcaption>
+  </figure>
+  <ul class="flex flex-col" role="list">
+    {e.items.map((i) => (
+      <li class="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-t py-4" style="border-color: var(--c-hairline);">
+        <span class="font-bold" style="font-size: var(--t-h3);">{pick(i.job, locale)}</span>
+        <span style="color: var(--c-body2);">{pick(i.city, locale)}</span>
+        <span class="mono ms-auto text-[11px] tracking-[0.1em]" style="color: var(--c-body2);"><span>{i.platform}</span>{meta(i) && <span> · {meta(i)}</span>}</span>
+      </li>
+    ))}
+  </ul>
+</section>

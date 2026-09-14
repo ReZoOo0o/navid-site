@@ -1,0 +1,118 @@
+# "One day of work" episode log — from Navid's Q14/Q15 answers, 2026-08-29.
+#
+# WHAT HE ACTUALLY GAVE: a list of jobs and clients, with no hours, no pay and
+# no reel links. `hours` is null wherever he did not say, and no pay figure
+# is published anywhere.
+#
+# 2026-09-09 UPDATE to the paragraph above: four reel links have since arrived
+# and two of them are matched below. Pay figures stay unpublished — that is now
+# his own decision, not a default. Hours are still missing for three rows.
+#
+# Rendered by Episodes.astro (the work chapter) and Clients.astro since
+# 2026-08-31. Hours he never gave print as nothing, not zero.
+mock: false
+
+# Jobs he did himself — the format the films are built on.
+items:
+  - id: ep-armenia-delivery
+    city: { en: "Yerevan, Armenia", fa: "ایروان، ارمنستان" }
+    job: { en: "Food delivery by bicycle", fa: "پیک غذا با دوچرخه" }
+    platform: "Yandex"
+    hours: 12
+    # Reel links arrived 2026-09-09. `reelUrl` is loaded and schema-checked but
+    # rendered NOWHERE yet — if it is ever surfaced as an <a>, the link guard in
+    # tests/guards.test.ts requires the www-less form (https://instagram.com/…).
+    reelUrl: "https://www.instagram.com/reel/DZh801PoqVj/"
+    # 1,789,526 on his own reel-insights screen, 2026-09-09. It was 1.59M here
+    # and he had said 1.7M; the screenshot settles it and neither guess was right.
+    views: "1.79M"
+  - id: ep-georgia-courier
+    city: { en: "Tbilisi, Georgia", fa: "تفلیس، گرجستان" }
+    job: { en: "Motorcycle courier", fa: "پیک موتوری" }
+    platform: "Wolt"
+    hours: 9
+    reelUrl: null
+    views: "1.55M"
+  - id: ep-armenia-pride
+    city: { en: "Armenia", fa: "ارمنستان" }
+    # "Pride" here is the Iranian-built car, which the Persian says on its own.
+    # Bare in English the word names something else entirely, and this is now
+    # the top row on the page — so the English spells the car out.
+    job: { en: "A working day with a Pride — the Iranian car", fa: "یک روز کار با پراید" }
+    platform: "Yandex"
+    hours: null
+    reelUrl: "https://www.instagram.com/reel/DcgjDsBoc_x/"
+    # 4,357,796 on his own reel-insights screen, 2026-09-09 — it was 2.4M in
+    # August. His biggest film, and it has overtaken the delivery day.
+    views: "4.36M"
+  - id: ep-armenia-moto
+    city: { en: "Armenia", fa: "ارمنستان" }
+    job: { en: "A working day on a motorcycle", fa: "یک روز کار با موتور" }
+    platform: "Yandex"
+    hours: null
+    reelUrl: null
+    views: "500K"
+  - id: ep-yerevan-barista
+    city: { en: "Yerevan, Armenia", fa: "ایروان، ارمنستان" }
+    job: { en: "Set up the bar and trained the baristas", fa: "راه‌اندازی بار و آموزش باریستاها" }
+    platform: "British Park café"
+    hours: null
+    reelUrl: null
+    views: null
+
+# Commercial clients — brands and organisations that have already paid or
+# partnered with him. Q31 he answered "nothing", meaning no brand has cold-DM'd
+# him; but this list says he has delivered for eight of them already. That is
+# a sponsor credential he is not claiming for himself.
+partnerships:
+  - id: pt-menq
+    client: "MENQ"
+    what: { en: "Clothing campaign model", fa: "مدلینگ کمپین لباس" }
+    where: { en: "Armenia", fa: "ارمنستان" }
+  - id: pt-green-rock
+    client: "Green Rock Foundation · Meet Dilijan"
+    what:
+      en: "Sponsored partner for a ten-day ride from Yerevan to Dilijan"
+      fa: "پارتنر تبلیغاتی و اسپانسرشدهٔ یک سفر ده‌روزه با دوچرخه از ایروان به دیلیجان"
+    where: { en: "Armenia", fa: "ارمنستان" }
+  - id: pt-tumo-hostel
+    client: "11+1 by Tumo"
+    what: { en: "Hostel campaign", fa: "کمپین تبلیغاتی هاستل" }
+    where: { en: "Dilijan, Armenia", fa: "دیلیجان، ارمنستان" }
+  - id: pt-brothers-fight
+    client: "Brothers Fight Team"
+    what: { en: "Promotional film for the MMA gym", fa: "ویدیوی تبلیغاتی باشگاه MMA" }
+    where: { en: "Armenia", fa: "ارمنستان" }
+  - id: pt-nimani-tours
+    client: "Nimani Real Estate"
+    what:
+      en: "Ran professional off-road tours and international DJ events"
+      fa: "برگزاری تورهای حرفه‌ای آفرود و ایونت‌های بین‌المللی دی‌جی"
+    where: { en: "Armenia", fa: "ارمنستان" }
+  - id: pt-foodblog
+    client: "Armenian_foodblog"
+    what:
+      en: "Joint food films with Armenia's biggest food blogger"
+      fa: "ویدیوهای مشترک غذا با بزرگ‌ترین فودبلاگر ارمنستان"
+    where: { en: "Armenia", fa: "ارمنستان" }
+  - id: pt-iranian-brands
+    client: "Iranian brands in Armenia"
+    what:
+      en: "A run of promotional films for Iranian names in Armenia"
+      fa: "مجموعه ویدیوهای تبلیغاتی برای برندها و اشخاص ایرانی در ارمنستان"
+    where: { en: "Armenia", fa: "ارمنستان" }
+
+# Q15 — work that was never filmed, but is real professional experience.
+#
+# [NAV] 2026-09-09 — the meeting with Armenia's prime minister and the tour
+# invitation are his own answer, and he asked for both to be on the site. He
+# gave no date and no place, so the line says so rather than guessing one.
+unfilmed:
+  - en: "Several years as a tour leader across Iran for incoming tourists"
+    fa: "چندین سال تورلیدری در سراسر ایران برای توریست‌های ورودی"
+  - en: "Ran tours for Iranian groups inside Iran and in Georgia"
+    fa: "برگزاری تور برای گروه‌های ایرانی در داخل ایران و در گرجستان"
+  - en: "Professional photography and documentary work"
+    fa: "عکاسی و مستندسازی حرفه‌ای"
+  - en: "Met the Prime Minister of Armenia and was invited to ride a cycling tour — 2026 (date and place to confirm)"
+    fa: "دیدار با نخست‌وزیر ارمنستان و دعوت به شرکت در یک تورِ دوچرخه‌سواری — ۲۰۲۶ (تاریخ و محل در دستِ تأیید)"

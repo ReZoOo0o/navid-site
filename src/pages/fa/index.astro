@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import Masthead from '../../components/Masthead.astro';
+import Hero from '../../components/Hero.astro';
+import Story from '../../components/Story.astro';
+import Essay from '../../components/Essay.astro';
+import Track from '../../components/Track.astro';
+import Episodes from '../../components/Episodes.astro';
+import Clients from '../../components/Clients.astro';
+import Sponsors from '../../components/Sponsors.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import FooterContact from '../../components/FooterContact.astro';
+import { t } from '../../lib/i18n';
+const s = t('fa');
+---
+<Base locale="fa" title={s['meta.title']} description={s['meta.description']} path="/fa/">
+  <Masthead locale="fa" />
+  <main id="main">
+    <Hero locale="fa" />
+    <Story locale="fa" />
+    <Essay locale="fa" />
+    <Track locale="fa" />
+    <Episodes locale="fa" />
+    <Clients locale="fa" />
+    <Sponsors locale="fa" />
+    <ContactForm locale="fa" />
+  </main>
+  <FooterContact locale="fa" />
+</Base>

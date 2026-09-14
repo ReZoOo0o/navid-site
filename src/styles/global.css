@@ -1,0 +1,188 @@
+@import 'tailwindcss';
+/* Variable + subset: one file per family per script instead of seven static cuts.
+   Research 2026: a self-hosted subsetted variable file beats a CDN request, and
+   the whole 100..900 range costs less than the three static weights it replaces.
+   Cormorant needs BOTH files: fontsource keeps italic in its own stylesheet, and
+   the hero motto is italic. Only the two latin faces are ever downloaded — the
+   cyrillic/vietnamese subsets are gated behind unicode-range. */
+@import '@fontsource-variable/sora/wght.css';
+@import '@fontsource-variable/vazirmatn/wght.css';
+@import '@fontsource-variable/cormorant-garamond/wght.css';
+@import '@fontsource-variable/cormorant-garamond/wght-italic.css';
+
+:root {
+  /* Skin B — charcoal + gold (spec 2026-09-09 §3). These are the values Navid
+     chose from design/review/skins/charcoal-gold-*.png. The Caucasus Light
+     paper palette they replace is not gone: @media print at the end of this
+     file restores it token for token, because the media-kit PDF prints on
+     paper. Any token added here needs a counterpart there — guarded. */
+  --c-ground: #1D1D1C; --c-ink: #ECE7DD;
+  --c-accent: #C9A961; --c-accent-deep: #E0C27A;
+  --c-body2: #B8B2A6; --c-muted: #8E897F; --c-hairline: #3A3936;
+  --c-band-text: #CFC8B8; --c-band-dim: #C9A961;
+  /* #sponsors, #clients and #contact used to INVERT the page (background:
+     var(--c-ink)). On a charcoal page that inverts into a light band, so they
+     now sit one step darker than the page instead. --c-band-ink is their bright
+     foreground: it cannot simply be --c-ink, because in the print palette
+     --c-ink IS the band colour (#26312B on #26312B = 1.00:1 — an invisible
+     band in the PDF). It flips with the palette, --c-band does not. */
+  --c-band: #141413; --c-band-ink: #ECE7DD;
+  /* The inputs' resting border. NOT --c-hairline: that is 1.60:1 on the band,
+     under WCAG 1.4.11's 3:1 for a UI-component boundary. NOT --c-muted either:
+     5.30:1 here but only 2.86:1 on the PRINTED band. Its own token is 5.30:1
+     here, and in print it goes quiet on purpose — see @media print. */
+  --c-input-border: #8E897F;
+  /* Declared HERE, not as <meta name="color-scheme">. The meta made Chrome
+     paint the printed page-MARGIN box from the dark UA canvas — a 14mm #121212
+     frame on all fourteen pages of the media kit. @media print { html {
+     background: #fff } } below cannot reach the margin box; only the used
+     color-scheme can, and as CSS the print block can flip it back to light. */
+  color-scheme: dark;
+  --f-sans: 'Sora Variable', Sora, system-ui, 'Helvetica Neue', sans-serif;
+  --f-fa: 'Vazirmatn Variable', Vazirmatn, system-ui, sans-serif;
+  --f-display: 'Cormorant Garamond Variable', 'Cormorant Garamond', Georgia, serif;
+
+  /* ── type scale ───────────────────────────────────────────────────────────
+     Every size on the site comes from here. A raw px in a component is a bug. */
+  --t-display: clamp(40px, 7.2vw, 74px);   /* h1 */
+  --t-h2:      clamp(26px, 3.4vw, 40px);   /* section heads */
+  --t-h3:      clamp(18px, 1.6vw, 21px);   /* card heads */
+  --t-lead:    clamp(16px, 1.5vw, 18px);   /* hero sub, sponsor prose */
+  --t-body:    clamp(14.5px, 1.2vw, 15.5px);
+  --t-small:   13px;
+  --t-label:   11px;                        /* mono instrument labels */
+  --t-micro:   10px;                        /* svg sub-labels, footnotes */
+  --lh-tight: 1.02; --lh-head: 1.2; --lh-body: 1.55; --lh-loose: 1.65;
+  --tr-label: 0.16em; --tr-tight: -0.02em;
+
+  /* ── spacing rhythm ─────────────────────────────────────────────────────── */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px;
+  --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px;
+}
+html { background: var(--c-ground); color: var(--c-ink); font-family: var(--f-sans); scroll-behavior: smooth; }
+[lang="fa"] body { font-family: var(--f-fa); line-height: 1.85; }
+/* Persian: cursive joins break under tracking; ascenders/descenders need room. */
+[lang="fa"] h1, [lang="fa"] h2, [lang="fa"] h3 { line-height: 1.35; }
+[lang="fa"] p, [lang="fa"] li { line-height: 1.9; }
+/* Tracked uppercase labels are a LATIN-ONLY idiom; Persian joins break under tracking. */
+.kicker { font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; font-size: 12px; color: var(--c-accent); }
+.mono { font-family: var(--f-sans); font-weight: 600; text-transform: uppercase; }
+[lang="fa"] .kicker, [lang="fa"] .mono, [lang="fa"] svg text { font-family: var(--f-fa); letter-spacing: 0; }
+[lang="fa"] [class*="tracking-"], [lang="fa"] h1 { letter-spacing: 0 !important; }
+[lang="fa"] .fa-text, :lang(fa) { font-family: var(--f-fa); }
+/* ── English display type (spec 2026-09-09 §4) ────────────────────────────
+   LATIN ONLY. Persian keeps Vazirmatn: Cormorant carries no Arabic script, so a
+   Persian node reaching it would fall back glyph by glyph and lose its joins.
+   Scoped to html[lang="en"], so the /fa/ page cannot match.
+   !important on size and weight ONLY: the components carry those two as INLINE
+   styles (`style="font-size: var(--t-h2); font-weight: 300"`), and no stylesheet
+   rule can reach past an inline style — the same reason
+   `[lang="fa"] h1 { letter-spacing: 0 !important }` exists above. font-family,
+   font-style and line-height need no escalation: this file is UNLAYERED, so it
+   already outranks every Tailwind utility class. */
+html[lang="en"] h1, html[lang="en"] h2, html[lang="en"] blockquote, html[lang="en"] .motto {
+  font-family: var(--f-display); font-weight: 500 !important; letter-spacing: 0;
+}
+html[lang="en"] h1 { font-size: calc(var(--t-display) * 1.12) !important; line-height: 1.02; }
+html[lang="en"] h2 { font-size: calc(var(--t-h2) * 1.12) !important; }
+html[lang="en"] blockquote { font-size: calc(var(--t-h3) * 1.2) !important; }
+/* The epigraph: one display size between --t-lead and --t-h3, italic, and the
+   only italic on the site — which is why the italic face is imported at all. */
+html[lang="en"] .motto { font-style: italic; font-size: 24px; }
+a { color: var(--c-accent); } a:hover { color: var(--c-accent-deep); }
+a[hreflang="fa"] { font-family: var(--f-fa); }
+:focus-visible { outline: 3px solid var(--c-ink); outline-offset: 2px; box-shadow: 0 0 0 6px var(--c-accent); }
+/* Reveal: hidden ONLY when JS is confirmed present (.js on <html>) — a sponsor
+   with scripts blocked still sees the whole page. */
+.reveal { transition: opacity .6s ease, transform .6s ease; }
+.js .reveal { opacity: 0; transform: translateY(14px); }
+.js .reveal.is-in { opacity: 1; transform: none; }
+.track-scroll { -webkit-mask-image: linear-gradient(to right, #000 88%, transparent); mask-image: linear-gradient(to right, #000 88%, transparent); }
+@media (min-width: 960px) { .track-scroll { -webkit-mask-image: none; mask-image: none; } }
+.cf-input {
+  /* Typed text is --c-band-text (11.07:1 on the band). It was --c-ground,
+     which under skin B is the charcoal page colour: charcoal on charcoal.
+     The border was a raw #3C4A42, then --c-hairline, which is excellent on
+     paper (9.53:1) but 1.60:1 on the screen band — under the 3:1 a boundary
+     needs. --c-input-border clears 3:1 on SCREEN; in print it is deliberately
+     quiet (see @media print), because a printed form box is not interactive. */
+  background: transparent; color: var(--c-band-text);
+  border: 1px solid var(--c-input-border); border-radius: 2px;
+  padding: 12px 14px; min-height: 44px;
+  font-family: var(--f-sans); font-size: var(--t-body);
+}
+.cf-input:focus-visible { border-color: var(--c-band-dim); }
+.cf-input::placeholder { color: var(--c-band-dim); }
+.cf-submit {
+  /* Gold on charcoal (7.50:1); green on paper in the PDF (5.19:1). Both come
+     out of the same two tokens, so the button needs no print override. */
+  align-self: flex-start; background: var(--c-accent); color: var(--c-ground);
+  border: 0; border-radius: 2px; padding: 14px 28px; min-height: 44px;
+  font-size: var(--t-small); font-weight: 700; text-transform: uppercase; cursor: pointer;
+}
+.cf-submit:hover { background: var(--c-accent-deep); }
+/* The masthead CTA and the 404 CTA are the same primary action as .cf-submit,
+   so they carry its colours, its radius and its hover. They used to be
+   background: var(--c-ink); color: var(--c-ground) — a dark chip on the old
+   light page, correctly quieter than the accent. The skin B token flip turned
+   that into a cream slab at 13.69:1: the brightest object on the page, louder
+   than the gold it points at. Guarded to stay in step with .cf-submit. */
+.cta-primary { background: var(--c-accent); color: var(--c-ground); border-radius: 2px; }
+.cta-primary:hover { background: var(--c-accent-deep); color: var(--c-ground); }
+.cf-submit:disabled { opacity: .55; cursor: progress; }
+[lang="fa"] .cf-input { font-family: var(--f-fa); }
+
+[data-mock-ribbon] {
+  position: sticky; top: 0; z-index: 60;
+  background: repeating-linear-gradient(45deg, #26312B, #26312B 12px, #1E2621 12px, #1E2621 24px);
+  color: #F5F6F4; text-align: center;
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 9px 16px; line-height: 1.4;
+}
+.skip-link { position: absolute; inset-inline-start: -9999px; top: 8px; z-index: 50; background: var(--c-ink); color: var(--c-ground); padding: 10px 18px; }
+.skip-link:focus-visible { inset-inline-start: 8px; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+}
+@media (scripting: none) { .reveal { opacity: 1 !important; transform: none !important; } }
+@media print {
+  /* The media-kit PDF prints on paper (spec §5): every colour token goes back
+     to the Caucasus Light palette the site shipped until 2026-09-09, so the
+     PDF is unchanged by the screen reskin. The display serif STAYS — it reads
+     well on paper. This block must remain BELOW :root: tests/guards.test.ts
+     reads the screen palette as "the first definition in the file". */
+  :root {
+    --c-ground: #F5F6F4; --c-ink: #26312B;
+    --c-accent: #47705A; --c-accent-deep: #2F5140;
+    --c-body2: #55625B; --c-muted: #6C766F; --c-hairline: #D5DAD6;
+    --c-band-text: #C4CFC7; --c-band-dim: #9DB5A6;
+    --c-band: #26312B; --c-band-ink: #F5F6F4;
+    /* Quiet again. Briefly #D5DAD6, which is 9.53:1 on the printed band and
+       drew a bright box round every field in the PDF where the paper era had a
+       near-invisible one (raw #3C4A42, 1.45:1). WCAG 1.4.11's 3:1 governs
+       INTERACTIVE components; a form box printed on paper is not one, and the
+       media kit is a document. Same idiom as the Clients dividers, so it is
+       mixed out of the band's own foreground: ~1.85:1. */
+    --c-input-border: color-mix(in srgb, var(--c-band-text) 25%, transparent);
+    /* Back to light so the @page margin box prints white, not charcoal. */
+    color-scheme: light;
+  }
+  .no-print { display: none !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  html { background: #fff; }
+  .track-scroll { overflow: visible !important; -webkit-mask-image: none; mask-image: none; }
+  .track-scroll svg { min-width: 0 !important; width: 100% !important; }
+  /* Media-kit page structure (2026-09-09). A4 leaves ~1017px of usable
+     height. The hero photograph at 46vh (517px) ended the hero text at 981px,
+     so the 211px stat row fell to page 2, where the 130px "WHO I AM" heading
+     and the first frame (853px, break-inside: avoid) could not share a page:
+     the frame took page 3 whole and left the heading over 644px of white.
+     Capped at 95mm the photograph gives page 1 room for the stats (~978px);
+     the story then opens a fresh page with its heading and its first frame
+     together (~959px). tests/pdf.test.ts holds both facts. */
+  .hero-photo { max-height: 95mm; }
+  .stat-row { padding-bottom: 0; }
+  #story { break-before: page; }
+  .story-head { padding-top: 0; }
+}

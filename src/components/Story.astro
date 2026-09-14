@@ -1,0 +1,58 @@
+---
+import StoryFrames from './StoryFrames.astro';
+import { t } from '../lib/i18n';
+import { loadStory, pick } from '../lib/content';
+interface Props { locale: 'en' | 'fa' }
+const { locale } = Astro.props;
+const s = t(locale);
+const story = loadStory();
+// Only his actual words. A pending quote has no body and is dropped here —
+// the page never learns it exists.
+const quotes = story.quotes.filter((q) => q.body !== null);
+---
+<section id="story" class="border-t" style="border-color: var(--c-hairline);">
+  <div class="story-head px-6 pt-14 md:px-16">
+    <p class="kicker mb-3">{s['story.label']}</p>
+    <h2 class="mb-8" style="font-size: var(--t-h2); font-weight: 300;">{s['story.heading']}</h2>
+  </div>
+
+  {/* His account as photo frames — see StoryFrames.astro and the 2026-09-05 spec. */}
+  <StoryFrames locale={locale} />
+
+  <div class="px-6 pb-14 md:px-16">
+    {quotes.length > 0 && (
+      <div class="mt-10 flex flex-col gap-8">
+        {quotes.map((q) => (
+          <figure class="border-s-[3px] ps-5" style="border-color: var(--c-accent);">
+            <blockquote class="leading-[1.5]" style="font-size: var(--t-h3); font-weight: 700;">
+              “{pick(q.body!, locale)}”
+            </blockquote>
+            <figcaption class="mono mt-3 text-[11px] tracking-[0.12em]" style="color: var(--c-body2);">
+              {pick(q.context, locale)}{locale === 'fa' ? ` · ${s['story.translated']}` : ''}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    )}
+    <p class="mt-10 max-w-[62ch] leading-[var(--lh-body)]" style="font-size: var(--t-lead); color: var(--c-body2);">{s['story.motif']}</p>
+    <div class="mt-12 grid gap-10 md:grid-cols-2 md:gap-16">
+      <div>
+        <p class="kicker mb-5">{s['story.yearsLabel']}</p>
+        <ol class="flex flex-col gap-5" role="list">
+          {story.timeline.map((tl) => (
+            <li class="grid grid-cols-[128px_1fr] gap-4 border-s ps-4" style="border-color: var(--c-hairline);">
+              <span class="mono text-[12px] tracking-[0.14em] pt-0.5" style="color: var(--c-accent);">{pick(tl.when, locale)}</span>
+              <span class="leading-[var(--lh-body)]" style="font-size: var(--t-body); color: var(--c-body2);">{pick(tl.body, locale)}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div>
+        <p class="kicker mb-3">{s['story.valuesLabel']}</p>
+        <p class="max-w-[52ch] leading-[var(--lh-body)]" style="font-size: var(--t-body); color: var(--c-body2);">
+          {[...story.values.values, ...story.values.crafts, ...story.values.languages].map((v) => pick(v, locale)).join(' · ')}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

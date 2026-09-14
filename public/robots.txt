@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://navidfaramarznezhad.com/sitemap-index.xml

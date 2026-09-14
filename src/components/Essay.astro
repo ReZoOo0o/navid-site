@@ -1,0 +1,24 @@
+---
+import { t } from '../lib/i18n';
+import { loadEssay, pick } from '../lib/content';
+interface Props { locale: 'en' | 'fa' }
+const { locale } = Astro.props;
+const s = t(locale);
+const e = loadEssay();
+---
+<section id="essay" class="border-t px-6 py-14 md:px-16" style="border-color: var(--c-hairline);">
+  <p class="kicker mb-3">{s['essaySection.label']}</p>
+  <h2 class="mb-4 font-light" style="font-size: var(--t-h2)">{pick(e.title, locale)}</h2>
+  <p class="mb-10 max-w-[62ch] leading-[var(--lh-body)]" style="font-size: var(--t-lead); color: var(--c-body2);">{pick(e.intro, locale)}</p>
+  <div class="flex max-w-[760px] flex-col gap-10">
+    {e.excerpts.map((x) => (
+      <figure>
+        <p class="mb-3 text-[13px]" style="color: var(--c-muted);">{pick(x.frame, locale)}</p>
+        <blockquote class="border-s-2 ps-5 leading-[1.6]" style="border-color: var(--c-accent); font-size: var(--t-h3); font-weight: 300;">
+          “{pick(x.body, locale)}”
+        </blockquote>
+        {locale === 'fa' && <figcaption class="mt-2 text-[12px]" style="color: var(--c-muted);">{s['essaySection.translated']}</figcaption>}
+      </figure>
+    ))}
+  </div>
+</section>
